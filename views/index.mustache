@@ -15,12 +15,13 @@
         <button value="sumbit">Add todo</button>
     </form>
     <p>To Do List:</p>
-    {{#todos}}
+    {{#todos}} {{^is_complete}}
     <form action="/completed" method="POST">
         <div>
             <p class="task"><button type="submit" class="mark-task" name="item" value="{{item}}">Mark as Complete</button>{{item}}</p>
         </div>
-    </form>{{/todos}}
+    </form>
+    {{/is_complete}} {{/todos}}
     <p class="completed-list">Completed Tasks:</p>
     {{#todos}} {{#is_complete}}
     <p>{{item}}</p>
