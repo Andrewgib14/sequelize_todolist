@@ -10,7 +10,21 @@
 </head>
 
 <body>
-
+    <form action="/toDoList" method="POST">
+        <input type="text" name="item" placeholder="Add a todo..." />
+        <button value="sumbit">Add todo</button>
+    </form>
+    <p>To Do List:</p>
+    {{#todos}}
+    <form action="/completed" method="POST">
+        <div>
+            <p class="task"><button type="submit" class="mark-task" name="item" value="{{item}}">Mark as Complete</button>{{item}}</p>
+        </div>
+    </form>{{/todos}}
+    <p class="completed-list">Completed Tasks:</p>
+    {{#todos}} {{#is_complete}}
+    <p>{{item}}</p>
+    {{/is_complete}} {{/todos}}
 </body>
 
 </html>
