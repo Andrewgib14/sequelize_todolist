@@ -16,13 +16,21 @@
     </form>
     <p>To Do List:</p>
     {{#todos}} {{^is_complete}}
-    <form action="/completed" method="POST">
-        <div>
-            <p class="task"><button type="submit" class="mark-task" name="item" value="{{item}}">Mark as Complete</button>{{item}}</p>
-        </div>
-    </form>
+    <div>
+        <form action="/completed" method="POST">
+
+            <button type="submit" class="mark-task" name="item" value="{{item}}">Mark as Complete</button>
+        </form>
+        <input class="task" value="{{item}}">
+        <form action="/deleteOne" method="POST">
+            <button name="item" value="{{item}}">Delete</button>
+        </form>
+    </div>
     {{/is_complete}} {{/todos}}
     <p class="completed-list">Completed Tasks:</p>
+    <form action="/delete" method="POST">
+        <button type="sumbit" name="item" value="{{item}}">Clear</button>
+    </form>
     {{#todos}} {{#is_complete}}
     <p>{{item}}</p>
     {{/is_complete}} {{/todos}}
