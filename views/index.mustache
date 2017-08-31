@@ -18,10 +18,15 @@
     {{#todos}} {{^is_complete}}
     <div>
         <form action="/completed" method="POST">
-
             <button type="submit" class="mark-task" name="item" value="{{item}}">Mark as Complete</button>
         </form>
-        <input class="task" value="{{item}}">
+
+        <p>{{item}}</p><button onclick="toggleVisible(display_{{id}});">Edit</button>
+        <div id="display_{{id}}" style="visibility: hidden;">
+            <form action="/edit/{{id}}" method="POST">
+                <input class="task" value="{{item}}" name="item"><button type="sumbit" onclick="toggleHidden(display_{{id}})">Done</button>
+            </form>
+        </div>
         <form action="/deleteOne" method="POST">
             <button name="item" value="{{item}}">Delete</button>
         </form>
@@ -29,11 +34,20 @@
     {{/is_complete}} {{/todos}}
     <p class="completed-list">Completed Tasks:</p>
     <form action="/delete" method="POST">
-        <button type="sumbit" name="item" value="{{item}}">Clear</button>
+        <button type="submit" name="item" value="{{item}}">Clear</button>
     </form>
     {{#todos}} {{#is_complete}}
     <p>{{item}}</p>
     {{/is_complete}} {{/todos}}
+
+    <script>
+        function toggleVisible(x) {
+            x.style.visibility = 'visible';
+        }
+        function toggleHidden(x) {
+            x.style.visibility = 'hidden';
+        }
+    </script>
 </body>
 
 </html>

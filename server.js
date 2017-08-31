@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mustacheExpress = require("mustache-express");
 const expressValidator = require("express-validator");
 const path = require("path");
-const port = process.env.PORT || 8004;
+const port = process.env.PORT || 8006;
 const models = require("./models");
 const app = express();
 const todo = models.todo;
@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 app.get("/", function (req, res) {
     todo.findAll().then(function (todos) {
         return res.render("index", { todos: todos })
-    });
+    })
 })
 
 app.post("/toDoList", function (req, res) {
@@ -63,8 +63,22 @@ app.post("/deleteOne", function (req, res) {
             item: req.body.item
         }
     }).then(function () {
-        return res.redirect("/")
+        return res.redirect("/");
     })
+})
+
+app.post("/edit/:id", function (req, res) {
+    todo.update(
+        {
+            item: req.body.item
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }).then(function () {
+            return res.redirect("/");
+        })
 })
 
 app.listen(port, function () {
