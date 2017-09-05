@@ -6,39 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>To Do List</title>
 </head>
 
 <body>
-    <form action="/toDoList" method="POST">
-        <input type="text" name="item" placeholder="Add a todo..." />
-        <button value="sumbit">Add todo</button>
-    </form>
-    <p>To Do List:</p>
-    {{#todos}} {{^is_complete}}
-    <div>
-        <form action="/completed" method="POST">
-            <button type="submit" class="mark-task" name="item" value="{{item}}">Mark as Complete</button>
-        </form>
+    <div class="wrapper">
+        <div class="container">
+            <form action="/toDoList" method="POST">
+                <input type="text" name="item" placeholder="Add a todo..." autocomplete = "off"/>
+                <button value="sumbit">Add todo</button>
+            </form>
+            <p class="list head">To Do List:</p>
+            {{#todos}} {{^is_complete}}
+            <div class="todoForms">
+                <form action="/completed" method="POST">
+                    <button type="submit" class="mark-task" name="item" value="{{item}}"><i class="fa fa-check" aria-hidden="true"></i></button>
+                </form>
+                <form action="/deleteOne" method="POST">
+                    <button name="item" value="{{item}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                </form>
 
-        <p>{{item}}</p><button onclick="toggleVisible(display_{{id}});">Edit</button>
-        <div id="display_{{id}}" style="visibility: hidden;">
-            <form action="/edit/{{id}}" method="POST">
-                <input class="task" value="{{item}}" name="item"><button type="sumbit" onclick="toggleHidden(display_{{id}})">Done</button>
+                <p>{{item}}</p><button class= "editButton" onclick="toggleVisible(display_{{id}});"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                <div id="display_{{id}}" style="visibility: hidden;">
+                    <form action="/edit/{{id}}" method="POST">
+                        <input class="editInput" value="{{item}}" name="item"><button type="sumbit" onclick="toggleHidden(display_{{id}})" autocomplete = "off"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+            </div>
+        {{/is_complete}} {{/todos}}
+        <div class= "clear">
+            <p class="completed-list head">Completed Tasks:</p>
+            <form action="/delete" method="POST">
+                <button type="submit" name="item" value="{{item}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
             </form>
         </div>
-        <form action="/deleteOne" method="POST">
-            <button name="item" value="{{item}}">Delete</button>
-        </form>
+        {{#todos}} {{#is_complete}}
+        <p>{{item}}</p>
+        {{/is_complete}} {{/todos}}
+        </div>
     </div>
-    {{/is_complete}} {{/todos}}
-    <p class="completed-list">Completed Tasks:</p>
-    <form action="/delete" method="POST">
-        <button type="submit" name="item" value="{{item}}">Clear</button>
-    </form>
-    {{#todos}} {{#is_complete}}
-    <p>{{item}}</p>
-    {{/is_complete}} {{/todos}}
 
     <script>
         function toggleVisible(x) {
